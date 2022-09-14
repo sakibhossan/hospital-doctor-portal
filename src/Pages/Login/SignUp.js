@@ -1,49 +1,78 @@
 import React from 'react';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  const { register, formState: { errors }, handleSubmit } = useForm();
-  const [
-    signInWithEmailAndPassword,
-    simpleUser,
-    simpleLoading,
-    simpleError,
-  ] = useSignInWithEmailAndPassword(auth);
-  
- 
-const navigate = useNavigate();
-const location = useLocation();
-  let signInErrorMessage;
-  let from = location.state?.from?.pathname || "/";
-  if( loading || simpleLoading){
-   return <Loading></Loading>
-  }
-  
-  if(error|| simpleError){
-    signInErrorMessage = <small className='text-red-500'>{error?.message || simpleError?.message}</small>
-  }
-  
+const SignUp = () => {
+    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    const [
+        createUserWithEmailAndPassword,
+        simpleUser,
+        simpleLoading,
+        simpleError,
+      ] = useCreateUserWithEmailAndPassword(auth);
+      const navigate = useNavigate();
+      const [updateProfile, updating,  updateError] = useUpdateProfile(auth);
 
-  if (user || simpleUser) {
-    navigate(from, {replace: true});
-  }
-  const onSubmit = data => {
-    console.log(data);
-    signInWithEmailAndPassword(data.email,data.password);
-
-  };
-  return (
-    <div className='flex  h-screen justify-center items-center'>
+   
+  
+    let signInErrorMessage;
+    if( loading || simpleLoading ||updating){
+     return <Loading></Loading>
+    }
+    
+    if(error|| simpleError|| updateError){
+      signInErrorMessage = <small className='text-red-500'>{error?.message || simpleError?.message}</small>
+    }
+    
+  
+    if (user || simpleUser) {
+      console.log(user || simpleUser);
+    }
+    const onSubmit = async(data) => {
+      
+    await  createUserWithEmailAndPassword(data.email,data.password);
+      await updateProfile({displayName: data.name });
+      console.log('update done');
+      navigate('/appointment');
+      
+  
+    };
+    return (
+        <div className='flex  h-screen justify-center items-center'>
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-center text-xl font-bold">Login</h2>
+          <h2 className="text-center text-xl font-bold">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
 
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Name</span>
+               
+              </label>
+              <input 
+                 type="name" 
+                 placeholder="Your Name" 
+                 className="input input-bordered w-full max-w-xs" 
+              {...register("name", { 
+                required:{
+                  value: true,
+                  message:'Name is required'
+                }
+              })}
+           
+
+              />
+              <label className="label">
+              {errors.name?.type === 'required' &&<span className="label-text-alt text-red-500">{errors.name.message}</span>}
+              {errors.name?.type === 'pattern' &&<span className="label-text-alt text-red-500">{errors.name.message}</span>}
+                
+              
+              </label>
+            </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -108,10 +137,10 @@ const location = useLocation();
 
            
 
-            <input className='btn w-full max-w-xs text-white' type="submit" value="Login" />
+            <input className='btn w-full max-w-xs text-white' type="submit" value="Sign Up" />
           </form>
           
-        <p> <small>New to Doctors Portal <Link className='text-primary' to='/signup'>Create New Account</Link></small></p>
+        <p> <small>Already Have an Account<Link className='text-primary' to='/login'>Please Login</Link></small></p>
          
           <div className="divider">OR</div>
           <button
@@ -122,7 +151,7 @@ const location = useLocation();
         </div>
       </div>
     </div>
-  );
+    );
 };
 
-export default Login;
+export default SignUp;
