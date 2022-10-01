@@ -6,7 +6,7 @@ const Footer = () => {
         <footer style={{
             background: `url(${footer})`,
              backgroundSize: 'cover'
-        }} className=" p-10 mt-5">
+        }} className=" p-10 ">
         <div className='footer'>
         <div>
           <span className="footer-title">Services</span> 

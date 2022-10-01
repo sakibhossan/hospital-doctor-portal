@@ -8,22 +8,35 @@ const FormContact = () => {
          style={{
             background:`url(${appointment})`
            
+           
 
-        }}>
-            <h2 className='text-center text-success text-2xl pt-5 '>Contact Us</h2>
-            <h2 className='text-center text-2xl text-white my-5'>Stay Connected With us</h2>
-            <form className='text-center   items-center justify-center  '>
-                <input className='rounded-full pl-5 mt-5 py-3 w-56 md:w-72 lg:w-96'  type="email" name="email" placeholder='Email Address' id="" />
-                <br />
-
-                <input className='rounded-full pl-5 mt-5 py-3 w-56 md:w-72 lg:w-96 '  type="name" name="Subject" placeholder='Subject' id="" />
-                <br />
-                <textarea className='rounded-full pl-5 mt-5 py-3 w-56 md:w-72 lg:w-96 '  type="name" name="description" placeholder="Your message">
-                   
-                </textarea>
-                <br />
-                <button className="btn btn-primary lowercase text-white font-bold bg-gradient-to-r from-secondary to-primary mt-5 mb-5 py-2 px-8 ">Submit</button>
-            </form>
+        }}
+        className='bg-primary px-10 py-14 '>
+           <div className='text-center pb-14 text-white'>
+        <p className='text-xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-accent to-secondary'>
+          Contact Us
+        </p>
+        <h1 className='text-4xl'>Stay connected with us</h1>
+      </div>
+      <div className='grid grid-cols-1 justify-items-center gap-5'>
+        <input
+          type='text'
+          placeholder='Email Address'
+          className='input w-full max-w-md'
+        />
+        <input
+          type='text'
+          placeholder='Subject'
+          className='input w-full max-w-md'
+        />
+        <textarea
+          className='textarea w-full max-w-md'
+          placeholder='Your message'
+          rows={6}
+        ></textarea>
+        
+        <button  className="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary">Submit</button>
+      </div>
         </div>
     );
 };
