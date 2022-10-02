@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ServiceShedule = ({service,setTreatment}) => {
-    const {name,slots} = service;
+    const {name,slots,price} = service;
     return (
         <div className="card lg:max-w-lg bg-base-100 shadow-xl">
   <div className="card-body text-center">
@@ -12,7 +12,9 @@ const ServiceShedule = ({service,setTreatment}) => {
         :
         <span className='text-red-500'>Try another day</span>
         }</p>
+       
     <p>{slots.length} spaces available</p>
+    <p><small>Price:$ {price}</small></p>
 
     <div className="card-actions justify-center">
     
