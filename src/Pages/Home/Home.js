@@ -10,7 +10,7 @@ import Services from './Services';
 
 const Home = () => {
     return (
-        <div>
+        <div className='justify-center items-center'>
           <Banner></Banner>
           <Info></Info>
           <Services></Services>
